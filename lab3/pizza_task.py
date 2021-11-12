@@ -163,13 +163,14 @@ class Customer:
 
 
 class Order:
+    """Class that construct the order and count the total value"""
     def __init__(self, customer, day):
         if not isinstance(customer, Customer):
             raise TypeError("Incorrect type")
-        self.pizza = Pizza()
         self.customer = customer
-        self.pizza_list = []
         self.day = day
+        self.pizza = Pizza()
+        self.pizza_list = []
 
     @property
     def day(self):
@@ -185,6 +186,7 @@ class Order:
             raise
 
     def type_of_pizza(self):
+        """Method that return pizza-of-day"""
         if calendar.day_name[self.day.weekday()] == "Monday":
             pizza = Monday()
         if calendar.day_name[self.day.weekday()] == "Tuesday":
@@ -202,7 +204,12 @@ class Order:
         return pizza
 
     def add_pizza(self, add_pizza):
-        """"Method that add the ingredients at empty dict 'list_of_ingredients'."""
+        """"Method that add the pizza at order."""
+        if not isinstance(add_pizza, list):
+            raise TypeError("Incorrect type")
+        for item in add_pizza:
+            if not isinstance(item, Pizza):
+                raise TypeError("Incorrect type")
         for i in add_pizza:
             self.pizza_list.append(i)
 
@@ -216,16 +223,18 @@ class Order:
     def __str__(self):
         return f'\n {self.customer}, {self.pizza_list}'
 
+
 with open('pizza_of_day.json', 'r') as file:
     info = json.load(file)
 with open('ingredients.json', 'r') as file:
     ingredients = json.load(file)
 
 customer1 = Customer("Ira", "Omel")
-order1 = Order(customer1, "2021.11.15")
+order1 = Order(customer1, "2021.11.12")
 pizza1 = order1.type_of_pizza()
 pizza1.add_ingredients(["tomato", "ham"])
 pizza2 = order1.type_of_pizza()
+pizza2.add_ingredients(["pineapples"])
 order1.add_pizza([pizza1, pizza2])
 print(order1)
 print("\nTotal value order: " + str(order1.total_value()))
@@ -233,7 +242,7 @@ print("\nTotal value order: " + str(order1.total_value()))
 customer2 = Customer("Ira", "Mal")
 order2 = Order(customer2, "2021.11.14")
 pizza3 = order2.type_of_pizza()
-pizza3.add_ingredients(["ham", "pineapples"])
+pizza3.add_ingredients(["corn", "pineapples"])
 pizza2 = order2.type_of_pizza()
 order2.add_pizza([pizza3])
 print(order2)
