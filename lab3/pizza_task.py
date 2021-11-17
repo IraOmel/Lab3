@@ -187,21 +187,9 @@ class Order:
 
     def type_of_pizza(self):
         """Method that return pizza-of-day"""
-        if calendar.day_name[self.day.weekday()] == "Monday":
-            pizza = Monday()
-        if calendar.day_name[self.day.weekday()] == "Tuesday":
-            pizza = Tuesday()
-        if calendar.day_name[self.day.weekday()] == "Wednesday":
-            pizza = Wednesday()
-        if calendar.day_name[self.day.weekday()] == "Thursday":
-            pizza = Thursday()
-        if calendar.day_name[self.day.weekday()] == "Friday":
-            pizza = Friday()
-        if calendar.day_name[self.day.weekday()] == "Saturday":
-            pizza = Saturday()
-        if calendar.day_name[self.day.weekday()] == "Sunday":
-            pizza = Sunday()
-        return pizza
+        dict_pizza = {"Monday":Monday(), "Tuesday": Tuesday(), "Wednesday": Wednesday(),"Thursday":Thursday(),
+                      "Friday": Friday(), "Saturday":Saturday(), "Sunday": Sunday()}
+        return dict_pizza[calendar.day_name[self.day.weekday()]]
 
     def add_pizza(self, add_pizza):
         """"Method that add the pizza at order."""
